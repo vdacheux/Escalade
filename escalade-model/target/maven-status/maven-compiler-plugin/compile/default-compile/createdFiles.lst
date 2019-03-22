@@ -1,0 +1,7 @@
+org\escalade\beans\Site.class
+org\escalade\beans\Utilisateur.class
+org\escalade\beans\Topo.class
+org\escalade\beans\Secteur.class
+org\escalade\beans\Commentaire.class
+org\escalade\beans\Longueur.class
+org\escalade\beans\Voie.class
