@@ -8,12 +8,17 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.inject.Inject;
+import javax.inject.Named;
+
 import org.escalade.beans.Utilisateur;
 
+@Named
 public class UtilisateurDaoImpl implements UtilisateurDao {
 
 	private final DaoFactory daoFactory;
 
+	@Inject
 	UtilisateurDaoImpl(DaoFactory daoFactory) {
 		this.daoFactory = daoFactory;
 	}

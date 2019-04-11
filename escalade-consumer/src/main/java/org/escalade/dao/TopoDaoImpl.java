@@ -8,12 +8,17 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.inject.Inject;
+import javax.inject.Named;
+
 import org.escalade.beans.Topo;
 
+@Named
 public class TopoDaoImpl implements TopoDao {
 
 	private final DaoFactory daoFactory;
 
+	@Inject
 	TopoDaoImpl(DaoFactory daoFactory) {
 		this.daoFactory = daoFactory;
 	}

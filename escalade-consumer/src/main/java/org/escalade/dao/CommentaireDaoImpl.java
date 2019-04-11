@@ -8,14 +8,19 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.inject.Inject;
+import javax.inject.Named;
+
 import org.escalade.beans.Commentaire;
 import org.escalade.beans.Site;
 import org.escalade.beans.Utilisateur;
 
+@Named
 public class CommentaireDaoImpl implements CommentaireDao {
 
 	private final DaoFactory daoFactory;
 
+	@Inject
 	CommentaireDaoImpl(DaoFactory daoFactory) {
 		this.daoFactory = daoFactory;
 	}
@@ -140,7 +145,7 @@ public class CommentaireDaoImpl implements CommentaireDao {
 		try {
 			connexion = this.daoFactory.getConnection();
 			preparedStatement = connexion.prepareStatement(
-					"SELECT * FROM escalade.commentaire, escalade.utilisateur WHERE commentaire.utilisateur_id = utilisateur.utilisateur_id AND utilisateur.identifiant = '?'");
+					"select * from escalade.commentaire join escalade.utilisateur on commentaire.utilisateur_id = utilisateur.utilisateur_id where utilisateur.identifiant = '?'");
 			preparedStatement.setString(1, identifiant);
 			resultat = preparedStatement.executeQuery();
 
@@ -200,7 +205,33 @@ public class CommentaireDaoImpl implements CommentaireDao {
 
 	@Override
 	public List<Commentaire> findCommentaireBySite(int siteId) {
-		return null;
+		Connection connexion = null;
+		PreparedStatement preparedStatement = null;
+		ResultSet resultat = null;
+		final List<Commentaire> commentaires = new ArrayList<Commentaire>();
+
+		try {
+			connexion = this.daoFactory.getConnection();
+			preparedStatement = connexion.prepareStatement("SELECT commentaire_id FROM commentaire WHERE site_id = ?");
+			preparedStatement.setLong(1, siteId);
+			resultat = preparedStatement.executeQuery();
+
+			while (resultat.next()) {
+				final String message = resultat.getString("message");
+				final String date = resultat.getString("date");
+				final int id = resultat.getInt("id");
+
+				final Commentaire commentaire = new Commentaire();
+				commentaire.setMessage(message);
+				commentaire.setDate(date);
+				commentaire.setId(id);
+
+				commentaires.add(commentaire);
+			}
+		} catch (final SQLException e) {
+			e.printStackTrace();
+		}
+		return commentaires;
 	}
 
 }

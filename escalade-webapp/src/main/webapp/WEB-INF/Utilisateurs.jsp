@@ -7,6 +7,10 @@
 <title>Utilisateurs</title>
 </head>
 <body>
+	<p>
+		<a href="Recherche.jsp">Rechercher un utilisateur</a>
+	</p>
+
 	<form method="post" action=ServletUtilisateurs>
 		<p>
 			<label for="identifiant">Identifiant : </label>

@@ -9,8 +9,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.escalade.beans.Utilisateur;
-import org.escalade.dao.DaoFactory;
 import org.escalade.dao.UtilisateurDao;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.context.support.SpringBeanAutowiringSupport;
 
 /**
  * Servlet implementation class ServletUtilisateurs
@@ -20,10 +21,14 @@ public class ServletUtilisateurs extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private UtilisateurDao utilisateurDao;
 
+	@Autowired
+	public void setUtilisateurDao(UtilisateurDao utilisateurDao) {
+		this.utilisateurDao = utilisateurDao;
+	}
+
 	@Override
 	public void init() throws ServletException {
-		final DaoFactory daoFactory = DaoFactory.getInstance();
-		this.utilisateurDao = daoFactory.getUtilisateurDao();
+		SpringBeanAutowiringSupport.processInjectionBasedOnCurrentContext(this);
 	}
 
 	/**

@@ -8,12 +8,17 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.inject.Inject;
+import javax.inject.Named;
+
 import org.escalade.beans.Secteur;
 
+@Named
 public class SecteurDaoImpl implements SecteurDao {
 
 	private final DaoFactory daoFactory;
 
+	@Inject
 	SecteurDaoImpl(DaoFactory daoFactory) {
 		this.daoFactory = daoFactory;
 	}
@@ -125,9 +130,32 @@ public class SecteurDaoImpl implements SecteurDao {
 	}
 
 	@Override
-	public Secteur findSecteurBySite(int siteId) {
-		// TODO Auto-generated method stub
-		return null;
+	public List<Secteur> findSecteurBySite(int siteId) {
+		Connection connexion = null;
+		PreparedStatement preparedStatement = null;
+		ResultSet resultat = null;
+		final List<Secteur> secteurs = new ArrayList<Secteur>();
+
+		try {
+			connexion = this.daoFactory.getConnection();
+			preparedStatement = connexion.prepareStatement("SELECT * FROM escalade.secteur WHERE site_id = ?");
+			preparedStatement.setLong(1, siteId);
+			resultat = preparedStatement.executeQuery();
+
+			while (resultat.next()) {
+				final String nom = resultat.getString("nom");
+				final int id = resultat.getInt("id");
+
+				final Secteur secteur = new Secteur();
+				secteur.setNom(nom);
+				secteur.setId(id);
+
+				secteurs.add(secteur);
+			}
+		} catch (final SQLException e) {
+			e.printStackTrace();
+		}
+		return secteurs;
 	}
 
 }

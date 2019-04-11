@@ -12,7 +12,7 @@ public interface SecteurDao {
 
 	Secteur findSecteur(int id);
 
-	Secteur findSecteurBySite(int siteId);
+	List<Secteur> findSecteurBySite(int siteId);
 
 	void updateSecteur(Secteur secteur);
 

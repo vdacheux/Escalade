@@ -4,8 +4,11 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
+import javax.inject.Named;
+
+@Named
 public class DaoFactory {
-	private final String url;
+	private final String url = "jdbc:postgresql://localhost:5432/escalade";
 	// private final String username;
 	// private final String password;
 
@@ -15,19 +18,12 @@ public class DaoFactory {
 	// this.password = password;
 	// }
 
-	DaoFactory(String url) {
-		this.url = url;
-	}
-
-	public static DaoFactory getInstance() {
+	public DaoFactory() {
 		try {
 			Class.forName("org.postgresql.Driver");
 		} catch (final ClassNotFoundException e) {
 			throw new RuntimeException(e);
 		}
-
-		final DaoFactory instance = new DaoFactory("jdbc:postgresql://localhost:5432/escalade");
-		return instance;
 	}
 
 	public Connection getConnection() throws SQLException {

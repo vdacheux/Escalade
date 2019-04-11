@@ -8,12 +8,17 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.inject.Inject;
+import javax.inject.Named;
+
 import org.escalade.beans.Longueur;
 
+@Named
 public class LongueurDaoImpl implements LongueurDao {
 
 	private final DaoFactory daoFactory;
 
+	@Inject
 	LongueurDaoImpl(DaoFactory daoFactory) {
 		this.daoFactory = daoFactory;
 	}
@@ -164,7 +169,7 @@ public class LongueurDaoImpl implements LongueurDao {
 		try {
 			connexion = this.daoFactory.getConnection();
 			preparedStatement = connexion.prepareStatement(
-					"SELECT * FROM escalade.longueur, escalade.voie WHERE longueur.voie_id = voie.voie_id AND voie.secteur_id = '?'");
+					"select * from escalade.longueur join escalade.voie on longueur.voie_id = voie.voie_id where voie.secteur_id = ?;");
 			preparedStatement.setLong(1, secteurId);
 			resultat = preparedStatement.executeQuery();
 
