@@ -2,26 +2,25 @@ package org.escalade.servlets;
 
 import java.io.IOException;
 
+import javax.inject.Inject;
 import javax.servlet.ServletException;
-import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.escalade.beans.Utilisateur;
 import org.escalade.dao.UtilisateurDao;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.context.support.SpringBeanAutowiringSupport;
 
 /**
  * Servlet implementation class ServletUtilisateurs
  */
-@WebServlet("/ServletUtilisateurs")
+// @WebServlet("/ServletUtilisateurs")
 public class ServletUtilisateurs extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private UtilisateurDao utilisateurDao;
 
-	@Autowired
+	@Inject
 	public void setUtilisateurDao(UtilisateurDao utilisateurDao) {
 		this.utilisateurDao = utilisateurDao;
 	}
